@@ -35,7 +35,7 @@ namespace VoucherPrintingApp
                 dt.Columns.Add("Account", typeof(string));
                 dt.Columns.Add("Debit", typeof(string));
                 dt.Columns.Add("Credit", typeof(string));
-                //dt.Columns.Add("CreditWords", typeof(decimal));
+                dt.Columns.Add("CreditWords", typeof(decimal));
 
                 foreach (IXLRow row in worksheet.RowsUsed().Skip(4))
                 {
@@ -75,7 +75,7 @@ namespace VoucherPrintingApp
             }
             dgv_Voucher.DataSource = dt;
             dgv_Voucher.Columns["Debit"].Visible = false;
-            //dgv_Voucher.Columns["CreditWords"].Visible = false;
+            dgv_Voucher.Columns["CreditWords"].Visible = false;
         }
         private void InitializeDataGridView()
         {
@@ -124,7 +124,7 @@ namespace VoucherPrintingApp
             dataTable.Columns.Add("Account", typeof(string));
             dataTable.Columns.Add("Debit", typeof(decimal));
             dataTable.Columns.Add("Credit", typeof(decimal));
-            dataTable.Columns.Add("CreditWords", typeof(decimal));
+            dataTable.Columns.Add("CreditWords", typeof(string));
 
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
@@ -133,6 +133,9 @@ namespace VoucherPrintingApp
                     string num = Convert.ToString(row.Cells["Num"].Value);
                     if (transactionDetails.ContainsKey(num))
                     {
+                        bool creditWordsSet = false; // Flag to track if CreditWords has been set
+                        decimal totalDebit = 0; // Variable to sum the debit values
+
                         foreach (DataRow detailRow in transactionDetails[num])
                         {
                             DataRow newRow = dataTable.NewRow();
@@ -142,6 +145,7 @@ namespace VoucherPrintingApp
                             newRow["Description"] = detailRow["Memo/Description"];
                             newRow["Account"] = detailRow["Account"];
 
+                            // Handling Debit values
                             string debitStr = detailRow["Debit"].ToString();
                             if (debitStr == "--" || !decimal.TryParse(debitStr, out decimal debitValue))
                             {
@@ -150,19 +154,23 @@ namespace VoucherPrintingApp
                             else
                             {
                                 newRow["Debit"] = debitValue;
+                                totalDebit += debitValue; // Add to the total debit sum
                             }
 
                             // Handling Credit values
                             string creditStr = detailRow["Credit"].ToString();
-                            if (creditStr == "--" || !decimal.TryParse(creditStr, out decimal creditValue))
+                            decimal creditValue = 0;
+                            if (!creditWordsSet && creditStr != "--" && decimal.TryParse(creditStr, out creditValue))
                             {
-                                newRow["Credit"] = 0; // Default to zero for invalid values
-                                newRow["CreditWords"] = "zero"; // Default word representation
+                                newRow["Credit"] = creditValue;
+                                //newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit); // Use totalDebit for words
+                                creditWordsSet = true; // Set the flag to prevent overriding
                             }
                             else
                             {
-                                newRow["Credit"] = creditValue;
-                                newRow["CreditWords"] = AmountInWords.NumberToWords(creditValue); // Convert credit to words
+                                newRow["Credit"] = 0; // Or handle appropriately if multiple credits
+                                newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit);
+                                //newRow["CreditWords"] = creditWordsSet ? "" : "zero"; // Set "zero" only if CreditWords hasn't been set
                             }
 
                             dataTable.Rows.Add(newRow);
@@ -170,8 +178,15 @@ namespace VoucherPrintingApp
                     }
                 }
             }
+            else
+            {
+                MessageBox.Show("No rows selected in DataGridView.");
+            }
+
             return dataTable;
         }
+
+
 
         private void btn_Close_Click(object sender, EventArgs e)
         {

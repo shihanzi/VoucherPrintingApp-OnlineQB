@@ -52,6 +52,7 @@
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
+            this.xrLabel14 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel13 = new DevExpress.XtraReports.UI.XRLabel();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.xrPanel1 = new DevExpress.XtraReports.UI.XRPanel();
@@ -61,7 +62,6 @@
             this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrLabel14 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).BeginInit();
@@ -356,6 +356,17 @@
             this.BottomMargin.HeightF = 347.9167F;
             this.BottomMargin.Name = "BottomMargin";
             // 
+            // xrLabel14
+            // 
+            this.xrLabel14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Debit]")});
+            this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(660.3668F, 0F);
+            this.xrLabel14.Multiline = true;
+            this.xrLabel14.Name = "xrLabel14";
+            this.xrLabel14.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel14.SizeF = new System.Drawing.SizeF(88.63324F, 23F);
+            this.xrLabel14.Text = "xrLabel14";
+            // 
             // xrLabel13
             // 
             this.xrLabel13.AutoWidth = true;
@@ -476,17 +487,7 @@
             this.xrTableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell8.TextFormatString = "{0:0.00}";
             this.xrTableCell8.Weight = 0.57481248620742564D;
-            // 
-            // xrLabel14
-            // 
-            this.xrLabel14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Debit]")});
-            this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(649.0001F, 0F);
-            this.xrLabel14.Multiline = true;
-            this.xrLabel14.Name = "xrLabel14";
-            this.xrLabel14.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-            this.xrLabel14.SizeF = new System.Drawing.SizeF(100F, 23F);
-            this.xrLabel14.Text = "xrLabel14";
+            //this.xrTableCell8.BeforePrint += new DevExpress.XtraReports.UI.BeforePrintEventHandler(this.xrTableCell8_BeforePrint);
             // 
             // VouReport
             // 
