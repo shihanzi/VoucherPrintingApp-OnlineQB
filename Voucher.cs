@@ -94,12 +94,17 @@ namespace VoucherPrintingApp
                 DataTable selectedTransactions = GetSelectedTransactionsData();
                 if (selectedTransactions.Rows.Count > 0)
                 {
-                    XtraReport report = new VouReport(); // Your custom report
+                    XtraReport report;
+                    if (selectedTransactions.Rows.Count <= 10)
+                    {
+                        report = new VouReportA5(); // Use A5 report if 10 or fewer rows
+                    }
+                    else
+                    {
+                        report = new VouReport(); // Use A4 report if more than 10 rows
+                    }
+
                     report.DataSource = selectedTransactions;
-
-                    // This might be necessary depending on how your report is designed
-                    report.DataMember = ""; // Typically this is the name of the DataTable if using DataSet
-
                     ReportPrintTool printTool = new ReportPrintTool(report);
                     printTool.ShowPreviewDialog(); // Show preview dialog
                 }
