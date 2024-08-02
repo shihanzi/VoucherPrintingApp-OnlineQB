@@ -30,8 +30,9 @@
         {
             dgv_Voucher = new DataGridView();
             lbl_VoucherPrint = new Label();
-            btn_Print = new Button();
+            btn_Printpreview = new Button();
             btn_Close = new Button();
+            btn_Print = new Button();
             ((System.ComponentModel.ISupportInitialize)dgv_Voucher).BeginInit();
             SuspendLayout();
             // 
@@ -47,39 +48,54 @@
             // lbl_VoucherPrint
             // 
             lbl_VoucherPrint.AutoSize = true;
-            lbl_VoucherPrint.Location = new Point(419, 19);
+            lbl_VoucherPrint.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_VoucherPrint.Location = new Point(401, 9);
             lbl_VoucherPrint.Name = "lbl_VoucherPrint";
-            lbl_VoucherPrint.Size = new Size(95, 15);
+            lbl_VoucherPrint.Size = new Size(155, 25);
             lbl_VoucherPrint.TabIndex = 1;
             lbl_VoucherPrint.Text = "Voucher Printing";
             // 
-            // btn_Print
+            // btn_Printpreview
             // 
-            btn_Print.Location = new Point(583, 502);
-            btn_Print.Name = "btn_Print";
-            btn_Print.Size = new Size(75, 23);
-            btn_Print.TabIndex = 2;
-            btn_Print.Text = "Print";
-            btn_Print.UseVisualStyleBackColor = true;
-            btn_Print.Click += btn_Print_Click;
+            btn_Printpreview.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_Printpreview.Location = new Point(536, 490);
+            btn_Printpreview.Name = "btn_Printpreview";
+            btn_Printpreview.Size = new Size(122, 46);
+            btn_Printpreview.TabIndex = 2;
+            btn_Printpreview.Text = "Print Preview";
+            btn_Printpreview.UseVisualStyleBackColor = true;
+            btn_Printpreview.Click += btn_Print_Click;
             // 
             // btn_Close
             // 
-            btn_Close.Location = new Point(688, 502);
+            btn_Close.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_Close.Location = new Point(793, 490);
             btn_Close.Name = "btn_Close";
-            btn_Close.Size = new Size(75, 23);
+            btn_Close.Size = new Size(122, 46);
             btn_Close.TabIndex = 3;
             btn_Close.Text = "Close";
             btn_Close.UseVisualStyleBackColor = true;
             btn_Close.Click += btn_Close_Click;
+            // 
+            // btn_Print
+            // 
+            btn_Print.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_Print.Location = new Point(664, 490);
+            btn_Print.Name = "btn_Print";
+            btn_Print.Size = new Size(122, 46);
+            btn_Print.TabIndex = 4;
+            btn_Print.Text = "Print";
+            btn_Print.UseVisualStyleBackColor = true;
+            btn_Print.Click += button1_Click;
             // 
             // Voucher
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(946, 540);
-            Controls.Add(btn_Close);
             Controls.Add(btn_Print);
+            Controls.Add(btn_Close);
+            Controls.Add(btn_Printpreview);
             Controls.Add(lbl_VoucherPrint);
             Controls.Add(dgv_Voucher);
             Name = "Voucher";
@@ -93,7 +109,8 @@
 
         private DataGridView dgv_Voucher;
         private Label lbl_VoucherPrint;
-        private Button btn_Print;
+        private Button btn_Printpreview;
         private Button btn_Close;
+        private Button btn_Print;
     }
 }

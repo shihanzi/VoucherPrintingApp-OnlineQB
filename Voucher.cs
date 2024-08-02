@@ -197,5 +197,37 @@ namespace VoucherPrintingApp
         {
             Application.Exit();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (dgv_Voucher.SelectedRows.Count > 0)
+            {
+                DataTable selectedTransactions = GetSelectedTransactionsData();
+                if (selectedTransactions.Rows.Count > 0)
+                {
+                    XtraReport report;
+                    if (selectedTransactions.Rows.Count <= 10)
+                    {
+                        report = new VouReportA5(); // Use A5 report if 10 or fewer rows
+                }
+                else
+                {
+                    report = new VouReport(); // Use A4 report if more than 10 rows
+                }
+
+                report.DataSource = selectedTransactions;
+                    ReportPrintTool printTool = new ReportPrintTool(report);
+                    printTool.Print();
+                }
+                else
+                {
+                    MessageBox.Show("The selected data has no rows to print.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select at least one transaction to print.");
+            }
+        }
     }
 }
