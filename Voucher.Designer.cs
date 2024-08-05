@@ -58,9 +58,9 @@
             // btn_Printpreview
             // 
             btn_Printpreview.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btn_Printpreview.Location = new Point(536, 490);
+            btn_Printpreview.Location = new Point(450, 490);
             btn_Printpreview.Name = "btn_Printpreview";
-            btn_Printpreview.Size = new Size(122, 46);
+            btn_Printpreview.Size = new Size(208, 69);
             btn_Printpreview.TabIndex = 2;
             btn_Printpreview.Text = "Print Preview";
             btn_Printpreview.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             btn_Close.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btn_Close.Location = new Point(793, 490);
             btn_Close.Name = "btn_Close";
-            btn_Close.Size = new Size(122, 46);
+            btn_Close.Size = new Size(122, 69);
             btn_Close.TabIndex = 3;
             btn_Close.Text = "Close";
             btn_Close.UseVisualStyleBackColor = true;
@@ -82,7 +82,7 @@
             btn_Print.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btn_Print.Location = new Point(664, 490);
             btn_Print.Name = "btn_Print";
-            btn_Print.Size = new Size(122, 46);
+            btn_Print.Size = new Size(122, 69);
             btn_Print.TabIndex = 4;
             btn_Print.Text = "Print";
             btn_Print.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(946, 540);
+            ClientSize = new Size(946, 571);
             Controls.Add(btn_Print);
             Controls.Add(btn_Close);
             Controls.Add(btn_Printpreview);
