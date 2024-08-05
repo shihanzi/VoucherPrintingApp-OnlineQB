@@ -2,6 +2,7 @@
 using DevExpress.XtraReports.UI;
 using System;
 using System.Data;
+using System.IO;
 using VoucherPrintingApp.Helper;
 
 namespace VoucherPrintingApp
@@ -87,20 +88,39 @@ namespace VoucherPrintingApp
             dgv_Voucher.Columns.Insert(0, checkBoxColumn); // Inserts at the first position
         }
 
+        public XtraReport LoadReportFromFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                XtraReport report = new XtraReport();
+                report.LoadLayout(filePath);
+                return report;
+            }
+            else
+            {
+                throw new FileNotFoundException($"Report file not found: {filePath}");
+            }
+        }
+
+
         private void btn_Print_Click(object sender, EventArgs e)
         {
+            DataTable selectedTransactions = GetSelectedTransactionsData();
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
-                DataTable selectedTransactions = GetSelectedTransactionsData();
+                //DataTable selectedTransactions = GetSelectedTransactionsData();
                 if (selectedTransactions.Rows.Count > 0)
                 {
+                    string reportDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
                     XtraReport report;
                     if (selectedTransactions.Rows.Count <= 10)
                     {
+                        string reportPathA5 = Path.Combine(reportDirectory, "VouReportA5.repx");
                         report = new VouReportA5(); // Use A5 report if 10 or fewer rows
                     }
                     else
                     {
+                        string reportPathA4 = Path.Combine(reportDirectory, "VouReport.repx");
                         report = new VouReport(); // Use A4 report if more than 10 rows
                     }
 
@@ -130,6 +150,9 @@ namespace VoucherPrintingApp
             dataTable.Columns.Add("Debit", typeof(decimal));
             dataTable.Columns.Add("Credit", typeof(decimal));
             dataTable.Columns.Add("CreditWords", typeof(string));
+            dataTable.Columns.Add("VouNumber", typeof(string));
+            dataTable.Columns.Add("Memo", typeof(string));
+            dataTable.Columns.Add("TotalDebit", typeof(decimal));
 
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
@@ -149,6 +172,7 @@ namespace VoucherPrintingApp
                             newRow["Name"] = detailRow["Name"];
                             newRow["Description"] = detailRow["Memo/Description"];
                             newRow["Account"] = detailRow["Account"];
+                            //newRow["TotalDebit"] = detailRow["TotalDebit"];
 
                             // Handling Debit values
                             string debitStr = detailRow["Debit"].ToString();
@@ -160,6 +184,7 @@ namespace VoucherPrintingApp
                             {
                                 newRow["Debit"] = debitValue;
                                 totalDebit += debitValue; // Add to the total debit sum
+                                newRow["TotalDebit"] = totalDebit;
                             }
 
                             // Handling Credit values
@@ -177,6 +202,20 @@ namespace VoucherPrintingApp
                                 newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit);
                                 //newRow["CreditWords"] = creditWordsSet ? "" : "zero"; // Set "zero" only if CreditWords hasn't been set
                             }
+
+                            string memo = detailRow["Memo/Description"].ToString();
+                            string[] parts = memo.Split('#');
+                            if (parts.Length == 2)
+                            {
+                                newRow["VouNumber"] = parts[0];
+                                newRow["Memo"] = parts[1];
+                            }
+                            else
+                            {
+                                newRow["VouNumber"] = "";
+                                newRow["Memo"] = memo;
+                            }
+
 
                             dataTable.Rows.Add(newRow);
                         }
