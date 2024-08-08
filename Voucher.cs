@@ -3,6 +3,7 @@ using DevExpress.XtraReports.UI;
 using System;
 using System.Data;
 using System.IO;
+using System.Windows.Controls;
 using VoucherPrintingApp.Helper;
 
 namespace VoucherPrintingApp
@@ -20,11 +21,11 @@ namespace VoucherPrintingApp
             dgv_Voucher.MultiSelect = true;  // Allows multiple rows to be selected
 
             DataGridViewCheckBoxColumn selectedColumn = new DataGridViewCheckBoxColumn();
-            selectedColumn.Name = "Selected";
+            selectedColumn.Name = "Select";
             selectedColumn.HeaderText = "Select";
             selectedColumn.FalseValue = false;
             selectedColumn.TrueValue = true;
-            dgv_Voucher.Columns.Add(selectedColumn);
+            dgv_Voucher.Columns.Add(selectedColumn);   
         }
 
         Dictionary<string, List<DataRow>> transactionDetails = new Dictionary<string, List<DataRow>>();
@@ -84,15 +85,18 @@ namespace VoucherPrintingApp
             dgv_Voucher.DataSource = dt;
             dgv_Voucher.Columns["Debit"].Visible = false;
             dgv_Voucher.Columns["CreditWords"].Visible = false;
+            //dgv_Voucher.Columns["Selected"].Visible =false;
+
         }
         private void InitializeDataGridView()
         {
             // Assuming dgv_Voucher is your DataGridView
             DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            checkBoxColumn.HeaderText = "Selected";
+            checkBoxColumn.HeaderText = "Select";
             checkBoxColumn.Width = 70;
             checkBoxColumn.Name = "checkBoxColumn";
             dgv_Voucher.Columns.Insert(0, checkBoxColumn); // Inserts at the first position
+
         }
 
         public XtraReport LoadReportFromFile(string filePath)
@@ -166,7 +170,7 @@ namespace VoucherPrintingApp
             {
                 foreach (DataGridViewRow row in dgv_Voucher.Rows)
                 {
-                    DataGridViewCheckBoxCell checkBox = row.Cells["Selected"] as DataGridViewCheckBoxCell;
+                    DataGridViewCheckBoxCell checkBox = row.Cells["Select"] as DataGridViewCheckBoxCell;
                     if (checkBox != null && Convert.ToBoolean(checkBox.Value))
                     {
                         string num = Convert.ToString(row.Cells["Num"].Value);
@@ -272,5 +276,10 @@ namespace VoucherPrintingApp
                 MessageBox.Show("Please select at least one transaction to print.");
             }
         }
-    } 
+
+        private void Voucher_Load(object sender, EventArgs e)
+        {
+            dgv_Voucher.ClearSelection();
+        }
+    }
 }

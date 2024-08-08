@@ -44,6 +44,7 @@
             dgv_Voucher.Location = new Point(24, 49);
             dgv_Voucher.Name = "dgv_Voucher";
             dgv_Voucher.RowTemplate.Height = 25;
+            dgv_Voucher.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_Voucher.Size = new Size(891, 437);
             dgv_Voucher.TabIndex = 0;
             // 
@@ -102,6 +103,7 @@
             Controls.Add(dgv_Voucher);
             Name = "Voucher";
             Text = "Voucher";
+            Load += Voucher_Load;
             ((System.ComponentModel.ISupportInitialize)dgv_Voucher).EndInit();
             ResumeLayout(false);
             PerformLayout();
