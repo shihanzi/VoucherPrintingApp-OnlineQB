@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DevExpress.XtraReports.UI;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Data;
 using System.IO;
 using VoucherPrintingApp.Helper;
@@ -25,6 +26,8 @@ namespace VoucherPrintingApp
             selectedColumn.TrueValue = true;
             dgv_Voucher.Columns.Add(selectedColumn);
             dgv_Voucher.Columns["Selected"].DisplayIndex = 0;
+            dgv_Voucher.AllowUserToAddRows = false;
+
         }
 
         Dictionary<string, List<DataRow>> transactionDetails = new Dictionary<string, List<DataRow>>();
@@ -48,6 +51,10 @@ namespace VoucherPrintingApp
                 foreach (IXLRow row in worksheet.RowsUsed().Skip(4))
                 {
                     string num = row.Cell(5).GetValue<string>().Trim();
+                    if (string.IsNullOrEmpty(row.Cell(6).GetValue<string>()))
+                    {
+                        continue; // Skip this row if the "Name" column is null or empty
+                    }
                     DataRow dataRow = dt.NewRow();
                     dataRow["Date"] = row.Cell(4).GetValue<string>();
                     dataRow["Num"] = num;
@@ -208,7 +215,7 @@ namespace VoucherPrintingApp
                                 else
                                 {
                                     newRow["Credit"] = 0; // Or handle appropriately if multiple credits
-                                    newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit);
+                                    newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit) + " rupees only";
                                     //newRow["CreditWords"] = creditWordsSet ? "" : "zero"; // Set "zero" only if CreditWords hasn't been set
                                 }
 

@@ -104,7 +104,7 @@
             this.xrLabel16.SizeF = new System.Drawing.SizeF(111.058F, 23F);
             this.xrLabel16.StylePriority.UseBorders = false;
             this.xrLabel16.StylePriority.UseFont = false;
-            this.xrLabel16.Text = "Credit";
+            this.xrLabel16.Text = "Credit (Rs)";
             // 
             // xrLabel15
             // 
@@ -119,7 +119,7 @@
             this.xrLabel15.SizeF = new System.Drawing.SizeF(112.4041F, 23F);
             this.xrLabel15.StylePriority.UseBorders = false;
             this.xrLabel15.StylePriority.UseFont = false;
-            this.xrLabel15.Text = "Debit";
+            this.xrLabel15.Text = "Debit (Rs)";
             // 
             // xrLabel14
             // 
@@ -371,6 +371,7 @@
             this.xrLabel19.SizeF = new System.Drawing.SizeF(112.4041F, 23F);
             this.xrLabel19.StylePriority.UseBorders = false;
             this.xrLabel19.Text = "xrLabel18";
+            this.xrLabel19.TextFormatString = "{0:N}";
             // 
             // xrLabel18
             // 
@@ -386,6 +387,7 @@
             this.xrLabel18.SizeF = new System.Drawing.SizeF(111.058F, 23F);
             this.xrLabel18.StylePriority.UseBorders = false;
             this.xrLabel18.Text = "xrLabel18";
+            this.xrLabel18.TextFormatString = "{0:N}";
             // 
             // xrLabel17
             // 
@@ -496,6 +498,7 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Debit]")});
             this.xrTableCell3.Multiline = true;
             this.xrTableCell3.Name = "xrTableCell3";
+            this.xrTableCell3.TextFormatString = "{0:N}";
             this.xrTableCell3.Weight = 1.6665984293456861D;
             // 
             // xrTableCell4
@@ -504,6 +507,7 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Credit]")});
             this.xrTableCell4.Multiline = true;
             this.xrTableCell4.Name = "xrTableCell4";
+            this.xrTableCell4.TextFormatString = "{0:N}";
             this.xrTableCell4.Weight = 1.646642145164122D;
             // 
             // GroupHeader1
