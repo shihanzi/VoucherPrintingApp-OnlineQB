@@ -354,7 +354,7 @@
             this.xrLabel4,
             this.xrLabel3,
             this.xrLabel2});
-            this.BottomMargin.HeightF = 646.9999F;
+            this.BottomMargin.HeightF = 750F;
             this.BottomMargin.Name = "BottomMargin";
             // 
             // xrLabel19
@@ -441,6 +441,7 @@
             this.xrTable1});
             this.Detail.DrillDownExpanded = false;
             this.Detail.FillEmptySpace = true;
+            this.Detail.Font = new DevExpress.Drawing.DXFont("Arial", 9F);
             this.Detail.HeightF = 25F;
             this.Detail.HierarchyPrintOptions.Indent = 0F;
             this.Detail.KeepTogetherWithDetailReports = true;
@@ -448,6 +449,7 @@
             this.Detail.MultiColumn.ColumnCount = 3;
             this.Detail.Name = "Detail";
             this.Detail.SnapLinePadding = new DevExpress.XtraPrinting.PaddingInfo(10, 10, 0, 0, 100F);
+            this.Detail.StylePriority.UseFont = false;
             // 
             // xrTable1
             // 
@@ -478,7 +480,6 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Description]")});
             this.xrTableCell1.Multiline = true;
             this.xrTableCell1.Name = "xrTableCell1";
-            this.xrTableCell1.Text = "xrTableCell1";
             this.xrTableCell1.Weight = 4.3573997456669087D;
             // 
             // xrTableCell2
@@ -487,7 +488,6 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Account]")});
             this.xrTableCell2.Multiline = true;
             this.xrTableCell2.Name = "xrTableCell2";
-            this.xrTableCell2.Text = "xrTableCell2";
             this.xrTableCell2.Weight = 3.9980828130595047D;
             // 
             // xrTableCell3
@@ -496,7 +496,6 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Debit]")});
             this.xrTableCell3.Multiline = true;
             this.xrTableCell3.Name = "xrTableCell3";
-            this.xrTableCell3.Text = "xrTableCell3";
             this.xrTableCell3.Weight = 1.6665984293456861D;
             // 
             // xrTableCell4
@@ -505,7 +504,6 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Credit]")});
             this.xrTableCell4.Multiline = true;
             this.xrTableCell4.Name = "xrTableCell4";
-            this.xrTableCell4.Text = "xrTableCell4";
             this.xrTableCell4.Weight = 1.646642145164122D;
             // 
             // GroupHeader1
@@ -526,7 +524,7 @@
             this.Detail,
             this.GroupHeader1});
             this.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F);
-            this.Margins = new DevExpress.Drawing.DXMargins(19F, 11F, 177.875F, 646.9999F);
+            this.Margins = new DevExpress.Drawing.DXMargins(19F, 11F, 177.875F, 750F);
             this.PageHeight = 1169;
             this.PageWidth = 827;
             this.PaperKind = DevExpress.Drawing.Printing.DXPaperKind.A4;

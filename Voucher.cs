@@ -1,9 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DevExpress.XtraReports.UI;
-using System;
 using System.Data;
 using System.IO;
-using System.Windows.Controls;
 using VoucherPrintingApp.Helper;
 
 namespace VoucherPrintingApp
@@ -21,11 +19,12 @@ namespace VoucherPrintingApp
             dgv_Voucher.MultiSelect = true;  // Allows multiple rows to be selected
 
             DataGridViewCheckBoxColumn selectedColumn = new DataGridViewCheckBoxColumn();
-            selectedColumn.Name = "Select";
-            selectedColumn.HeaderText = "Select";
+            selectedColumn.Name = "Selected";
+            selectedColumn.HeaderText = "Selected";
             selectedColumn.FalseValue = false;
             selectedColumn.TrueValue = true;
-            dgv_Voucher.Columns.Add(selectedColumn);   
+            dgv_Voucher.Columns.Add(selectedColumn);
+            dgv_Voucher.Columns["Selected"].DisplayIndex = 0;
         }
 
         Dictionary<string, List<DataRow>> transactionDetails = new Dictionary<string, List<DataRow>>();
@@ -85,17 +84,12 @@ namespace VoucherPrintingApp
             dgv_Voucher.DataSource = dt;
             dgv_Voucher.Columns["Debit"].Visible = false;
             dgv_Voucher.Columns["CreditWords"].Visible = false;
-            //dgv_Voucher.Columns["Selected"].Visible =false;
+           
 
         }
         private void InitializeDataGridView()
         {
-            // Assuming dgv_Voucher is your DataGridView
-            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            checkBoxColumn.HeaderText = "Select";
-            checkBoxColumn.Width = 70;
-            checkBoxColumn.Name = "checkBoxColumn";
-            dgv_Voucher.Columns.Insert(0, checkBoxColumn); // Inserts at the first position
+         
 
         }
 
@@ -132,7 +126,7 @@ namespace VoucherPrintingApp
                     else
                     {
                         string reportPathA4 = Path.Combine(reportDirectory, "VouReport.repx");
-                        report = new VouReport(); // Use A4 report if more than 10 rows
+                        report = new VouReportA5(); // Use A4 report if more than 10 rows
                     }
 
                     report.DataSource = selectedTransactions;
@@ -170,7 +164,7 @@ namespace VoucherPrintingApp
             {
                 foreach (DataGridViewRow row in dgv_Voucher.Rows)
                 {
-                    DataGridViewCheckBoxCell checkBox = row.Cells["Select"] as DataGridViewCheckBoxCell;
+                    DataGridViewCheckBoxCell checkBox = row.Cells["Selected"] as DataGridViewCheckBoxCell;
                     if (checkBox != null && Convert.ToBoolean(checkBox.Value))
                     {
                         string num = Convert.ToString(row.Cells["Num"].Value);
@@ -247,24 +241,28 @@ namespace VoucherPrintingApp
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DataTable selectedTransactions = GetSelectedTransactionsData();
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
-                DataTable selectedTransactions = GetSelectedTransactionsData();
+                //DataTable selectedTransactions = GetSelectedTransactionsData();
                 if (selectedTransactions.Rows.Count > 0)
                 {
+                    string reportDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
                     XtraReport report;
                     if (selectedTransactions.Rows.Count <= 10)
                     {
+                        string reportPathA5 = Path.Combine(reportDirectory, "VouReportA5.repx");
                         report = new VouReportA5(); // Use A5 report if 10 or fewer rows
                     }
                     else
                     {
-                        report = new VouReport(); // Use A4 report if more than 10 rows
+                        string reportPathA4 = Path.Combine(reportDirectory, "VouReport.repx");
+                        report = new VouReportA5(); // Use A4 report if more than 10 rows
                     }
 
                     report.DataSource = selectedTransactions;
                     ReportPrintTool printTool = new ReportPrintTool(report);
-                    printTool.Print();
+                    printTool.Print(); // Show preview dialog
                 }
                 else
                 {
