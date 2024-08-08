@@ -38,6 +38,8 @@
             // 
             // dgv_Voucher
             // 
+            dgv_Voucher.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgv_Voucher.BackgroundColor = SystemColors.ButtonFace;
             dgv_Voucher.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_Voucher.Location = new Point(24, 49);
             dgv_Voucher.Name = "dgv_Voucher";

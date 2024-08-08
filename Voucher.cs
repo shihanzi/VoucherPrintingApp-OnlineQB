@@ -18,6 +18,13 @@ namespace VoucherPrintingApp
             // Set in form initialization or designer
             dgv_Voucher.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_Voucher.MultiSelect = true;  // Allows multiple rows to be selected
+
+            DataGridViewCheckBoxColumn selectedColumn = new DataGridViewCheckBoxColumn();
+            selectedColumn.Name = "Selected";
+            selectedColumn.HeaderText = "Select";
+            selectedColumn.FalseValue = false;
+            selectedColumn.TrueValue = true;
+            dgv_Voucher.Columns.Add(selectedColumn);
         }
 
         Dictionary<string, List<DataRow>> transactionDetails = new Dictionary<string, List<DataRow>>();
@@ -153,85 +160,82 @@ namespace VoucherPrintingApp
             dataTable.Columns.Add("VouNumber", typeof(string));
             dataTable.Columns.Add("Memo", typeof(string));
             dataTable.Columns.Add("TotalDebit", typeof(decimal));
+            dataTable.Columns.Add("TransactionID", typeof(string));
 
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
-                foreach (DataGridViewRow row in dgv_Voucher.SelectedRows)
+                foreach (DataGridViewRow row in dgv_Voucher.Rows)
                 {
-                    string num = Convert.ToString(row.Cells["Num"].Value);
-                    if (transactionDetails.ContainsKey(num))
+                    DataGridViewCheckBoxCell checkBox = row.Cells["Selected"] as DataGridViewCheckBoxCell;
+                    if (checkBox != null && Convert.ToBoolean(checkBox.Value))
                     {
-                        bool creditWordsSet = false; // Flag to track if CreditWords has been set
-                        decimal totalDebit = 0; // Variable to sum the debit values
-
-                        foreach (DataRow detailRow in transactionDetails[num])
+                        string num = Convert.ToString(row.Cells["Num"].Value);
+                        if (transactionDetails.ContainsKey(num))
                         {
-                            DataRow newRow = dataTable.NewRow();
-                            newRow["Date"] = detailRow["Date"];
-                            newRow["Num"] = detailRow["Num"];
-                            newRow["Name"] = detailRow["Name"];
-                            newRow["Description"] = detailRow["Memo/Description"];
-                            newRow["Account"] = detailRow["Account"];
-                            //newRow["TotalDebit"] = detailRow["TotalDebit"];
+                            bool creditWordsSet = false;
+                            decimal totalDebit = 0;
 
-                            // Handling Debit values
-                            string debitStr = detailRow["Debit"].ToString();
-                            if (debitStr == "--" || !decimal.TryParse(debitStr, out decimal debitValue))
+                            foreach (DataRow detailRow in transactionDetails[num])
                             {
-                                newRow["Debit"] = 0; // Default to zero for invalid values
-                            }
-                            else
-                            {
-                                newRow["Debit"] = debitValue;
-                                totalDebit += debitValue; // Add to the total debit sum
-                                newRow["TotalDebit"] = totalDebit;
-                            }
+                                DataRow newRow = dataTable.NewRow();
+                                newRow["Date"] = detailRow["Date"];
+                                newRow["Num"] = detailRow["Num"];
+                                newRow["Name"] = detailRow["Name"];
+                                newRow["Description"] = detailRow["Memo/Description"];
+                                newRow["Account"] = detailRow["Account"];
+                                newRow["TransactionID"] = detailRow["Num"];
 
-                            // Handling Credit values
-                            string creditStr = detailRow["Credit"].ToString();
-                            decimal creditValue = 0;
-                            if (!creditWordsSet && creditStr != "--" && decimal.TryParse(creditStr, out creditValue))
-                            {
-                                newRow["Credit"] = creditValue;
-                                //newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit); // Use totalDebit for words
-                                creditWordsSet = true; // Set the flag to prevent overriding
-                            }
-                            else
-                            {
-                                newRow["Credit"] = 0; // Or handle appropriately if multiple credits
-                                newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit);
-                                //newRow["CreditWords"] = creditWordsSet ? "" : "zero"; // Set "zero" only if CreditWords hasn't been set
-                            }
+                                // Handling Debit values
+                                string debitStr = detailRow["Debit"].ToString();
+                                if (debitStr == "--" || !decimal.TryParse(debitStr, out decimal debitValue))
+                                {
+                                    newRow["Debit"] = 0; // Default to zero for invalid values
+                                }
+                                else
+                                {
+                                    newRow["Debit"] = debitValue;
+                                    totalDebit += debitValue; // Add to the total debit sum
+                                    newRow["TotalDebit"] = totalDebit;
+                                }
 
-                            string memo = detailRow["Memo/Description"].ToString();
-                            string[] parts = memo.Split('#');
-                            if (parts.Length == 2)
-                            {
-                                newRow["VouNumber"] = parts[0];
-                                newRow["Memo"] = parts[1];
-                            }
-                            else
-                            {
-                                newRow["VouNumber"] = "";
-                                newRow["Memo"] = memo;
-                            }
+                                // Handling Credit values
+                                string creditStr = detailRow["Credit"].ToString();
+                                decimal creditValue = 0;
+                                if (!creditWordsSet && creditStr != "--" && decimal.TryParse(creditStr, out creditValue))
+                                {
+                                    newRow["Credit"] = creditValue;
+                                    //newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit); // Use totalDebit for words
+                                    creditWordsSet = true; // Set the flag to prevent overriding
+                                }
+                                else
+                                {
+                                    newRow["Credit"] = 0; // Or handle appropriately if multiple credits
+                                    newRow["CreditWords"] = AmountInWords.NumberToWords(totalDebit);
+                                    //newRow["CreditWords"] = creditWordsSet ? "" : "zero"; // Set "zero" only if CreditWords hasn't been set
+                                }
+
+                                string memo = detailRow["Memo/Description"].ToString();
+                                string[] parts = memo.Split('#');
+                                if (parts.Length == 2)
+                                {
+                                    newRow["VouNumber"] = parts[0];
+                                    newRow["Memo"] = parts[1];
+                                }
+                                else
+                                {
+                                    newRow["VouNumber"] = "";
+                                    newRow["Memo"] = memo;
+                                }
 
 
-                            dataTable.Rows.Add(newRow);
+                                dataTable.Rows.Add(newRow);
+                            }
                         }
                     }
                 }
             }
-            else
-            {
-                MessageBox.Show("No rows selected in DataGridView.");
-            }
-
             return dataTable;
         }
-
-
-
         private void btn_Close_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -248,13 +252,13 @@ namespace VoucherPrintingApp
                     if (selectedTransactions.Rows.Count <= 10)
                     {
                         report = new VouReportA5(); // Use A5 report if 10 or fewer rows
-                }
-                else
-                {
-                    report = new VouReport(); // Use A4 report if more than 10 rows
-                }
+                    }
+                    else
+                    {
+                        report = new VouReport(); // Use A4 report if more than 10 rows
+                    }
 
-                report.DataSource = selectedTransactions;
+                    report.DataSource = selectedTransactions;
                     ReportPrintTool printTool = new ReportPrintTool(report);
                     printTool.Print();
                 }
@@ -268,5 +272,5 @@ namespace VoucherPrintingApp
                 MessageBox.Show("Please select at least one transaction to print.");
             }
         }
-    }
+    } 
 }
