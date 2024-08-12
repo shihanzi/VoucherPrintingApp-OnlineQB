@@ -39,6 +39,8 @@
             // dgv_Voucher
             // 
             dgv_Voucher.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgv_Voucher.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_Voucher.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dgv_Voucher.BackgroundColor = SystemColors.ButtonFace;
             dgv_Voucher.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_Voucher.Location = new Point(24, 49);
@@ -50,16 +52,20 @@
             // 
             // lbl_VoucherPrint
             // 
+            lbl_VoucherPrint.Anchor = AnchorStyles.Top;
             lbl_VoucherPrint.AutoSize = true;
             lbl_VoucherPrint.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_VoucherPrint.ImageAlign = ContentAlignment.TopCenter;
             lbl_VoucherPrint.Location = new Point(401, 9);
             lbl_VoucherPrint.Name = "lbl_VoucherPrint";
             lbl_VoucherPrint.Size = new Size(155, 25);
             lbl_VoucherPrint.TabIndex = 1;
             lbl_VoucherPrint.Text = "Voucher Printing";
+            lbl_VoucherPrint.TextAlign = ContentAlignment.TopCenter;
             // 
             // btn_Printpreview
             // 
+            btn_Printpreview.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btn_Printpreview.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btn_Printpreview.Location = new Point(450, 490);
             btn_Printpreview.Name = "btn_Printpreview";
@@ -71,6 +77,7 @@
             // 
             // btn_Close
             // 
+            btn_Close.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btn_Close.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btn_Close.Location = new Point(793, 490);
             btn_Close.Name = "btn_Close";
@@ -82,6 +89,7 @@
             // 
             // btn_Print
             // 
+            btn_Print.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btn_Print.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btn_Print.Location = new Point(664, 490);
             btn_Print.Name = "btn_Print";

@@ -2,6 +2,7 @@
 using DevExpress.XtraReports.UI;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using VoucherPrintingApp.Helper;
 
@@ -26,8 +27,6 @@ namespace VoucherPrintingApp
             selectedColumn.TrueValue = true;
             dgv_Voucher.Columns.Add(selectedColumn);
             dgv_Voucher.Columns["Selected"].DisplayIndex = 0;
-            dgv_Voucher.AllowUserToAddRows = false;
-
         }
 
         Dictionary<string, List<DataRow>> transactionDetails = new Dictionary<string, List<DataRow>>();
@@ -56,7 +55,18 @@ namespace VoucherPrintingApp
                         continue; // Skip this row if the "Name" column is null or empty
                     }
                     DataRow dataRow = dt.NewRow();
-                    dataRow["Date"] = row.Cell(4).GetValue<string>();
+                    string dateString = row.Cell(4).GetValue<string>();
+                    DateTime dateValue;
+                    if (DateTime.TryParseExact(dateString, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue))
+                    {
+                        // Convert to system's date format
+                        dataRow["Date"] = dateValue.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
+                    }
+                    else
+                    {
+                        // Handle the case where the date could not be parsed
+                        dataRow["Date"] = dateString; // Or assign a default value
+                    }
                     dataRow["Num"] = num;
                     dataRow["Name"] = row.Cell(6).GetValue<string>();
                     dataRow["Memo/Description"] = row.Cell(7).GetValue<string>();
