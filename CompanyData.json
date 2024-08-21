@@ -1,0 +1,14 @@
+{
+	"companies": [
+		{
+			"companyID": 1,
+			"companyName": "Sri Lanka Unites",
+			"address": "123 Main St, City, Country"
+		},
+		{
+			"companyID": 2,
+			"companyName": "EasyPack Solutions",
+			"address": "456, Gampaha, City, Country"
+		}
+	]
+}

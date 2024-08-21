@@ -199,13 +199,15 @@
             // 
             // xrLabel9
             // 
+            this.xrLabel9.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CompanyAddress]")});
             this.xrLabel9.LocationFloat = new DevExpress.Utils.PointFloat(293.8859F, 33.00001F);
             this.xrLabel9.Multiline = true;
             this.xrLabel9.Name = "xrLabel9";
             this.xrLabel9.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
             this.xrLabel9.SizeF = new System.Drawing.SizeF(259.375F, 23F);
             this.xrLabel9.StylePriority.UseTextAlignment = false;
-            this.xrLabel9.Text = "43, Vipulasena Mawatha, Colombo 10.";
+            this.xrLabel9.Text = "[companyAddress]";
             this.xrLabel9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // xrLabel5

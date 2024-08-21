@@ -110,6 +110,7 @@
             Controls.Add(lbl_VoucherPrint);
             Controls.Add(dgv_Voucher);
             Name = "Voucher";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Voucher";
             Load += Voucher_Load;
             ((System.ComponentModel.ISupportInitialize)dgv_Voucher).EndInit();

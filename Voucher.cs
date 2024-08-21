@@ -10,12 +10,17 @@ namespace VoucherPrintingApp
 {
     public partial class Voucher : Form
     {
+        private Welcome _welcomeForm;
+        public string SelectedCompanyName { get; set; }
+        public string SelectedCompanyAddress { get; set; }
+
         string filePath = @"C:\easypack\text.xlsx";
-        public Voucher()
+        public Voucher(Welcome welcomeForm)
         {
             InitializeComponent();
             LoadDataIntoDataGridView(filePath);
             InitializeDataGridView();
+            _welcomeForm = welcomeForm;
             // Set in form initialization or designer
             dgv_Voucher.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_Voucher.MultiSelect = true;  // Allows multiple rows to be selected
@@ -33,6 +38,7 @@ namespace VoucherPrintingApp
         private void LoadDataIntoDataGridView(string filePath)
         {
             DataTable dt = new DataTable();
+
             HashSet<string> uniqueNums = new HashSet<string>();
 
             using (var workbook = new XLWorkbook(filePath))
@@ -133,6 +139,18 @@ namespace VoucherPrintingApp
                 //DataTable selectedTransactions = GetSelectedTransactionsData();
                 if (selectedTransactions.Rows.Count > 0)
                 {
+                    string companyName = _welcomeForm.SelectedCompanyName;
+                    string companyAddress = _welcomeForm.SelectedCompanyAddress;
+
+                    selectedTransactions.Columns.Add("CompanyName", typeof(string));
+                    selectedTransactions.Columns.Add("CompanyAddress", typeof(string));
+
+                    foreach (DataRow row in selectedTransactions.Rows)
+                    {
+                        row["CompanyName"] = companyName;
+                        row["CompanyAddress"] = companyAddress;
+                    }
+
                     string reportDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
                     XtraReport report;
                     if (selectedTransactions.Rows.Count <= 10)
@@ -259,11 +277,14 @@ namespace VoucherPrintingApp
         private void button1_Click(object sender, EventArgs e)
         {
             DataTable selectedTransactions = GetSelectedTransactionsData();
+            Welcome welcome = new Welcome();
+            var (companyName, companyAddress) = welcome.SelectedDetails();
             if (dgv_Voucher.SelectedRows.Count > 0)
             {
                 //DataTable selectedTransactions = GetSelectedTransactionsData();
                 if (selectedTransactions.Rows.Count > 0)
                 {
+                    
                     string reportDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
                     XtraReport report;
                     if (selectedTransactions.Rows.Count <= 10)
@@ -295,6 +316,9 @@ namespace VoucherPrintingApp
         private void Voucher_Load(object sender, EventArgs e)
         {
             dgv_Voucher.ClearSelection();
+
+            var companyName = SelectedCompanyName;
+            var address = SelectedCompanyAddress;
         }
     }
 }
